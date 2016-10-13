@@ -11,7 +11,12 @@ import (
 )
 
 type ConverterHandler struct {
-	ConverterService converter.ConverterService
+	ConverterService ConverterServiceInterface
+}
+
+type ConverterServiceInterface interface {
+	GetRates(url string) (converter.Currencies, error)
+	Convert(currencies converter.Currencies, value float64) map[string]float64
 }
 
 func (h ConverterHandler) Convert(w http.ResponseWriter, r *http.Request) {

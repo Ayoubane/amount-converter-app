@@ -3,7 +3,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -28,7 +27,6 @@ func (h ConverterHandler) Convert(w http.ResponseWriter, r *http.Request) {
 	/*for key, rate := range result.Rates {
 		fmt.Printf("%s _ %f | ", key, rate)
 	}*/
-	fmt.Printf("%t", result.Rates)
 	amount, err := strconv.ParseFloat(r.URL.Query().Get("amount"), 64)
 	if err != nil {
 		http.Error(w, "Probleme dans le parsing", http.StatusBadRequest)

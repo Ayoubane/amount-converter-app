@@ -2,7 +2,6 @@ package converter
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -33,6 +32,5 @@ func (c ConverterService) Convert(currencies Currencies, value float64) map[stri
 	for key, rate := range currencies.Rates {
 		result[key] = rate * value
 	}
-	fmt.Printf("%v", result)
 	return result
 }

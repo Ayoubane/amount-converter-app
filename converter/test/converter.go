@@ -1,17 +1,21 @@
 package test
 
-import "github.com/ayoubane/amount-converter-app/converter"
+import (
+	"github.com/ayoubane/amount-converter-app/converter"
+	"github.com/stretchr/testify/mock"
+)
 
 type MockConverterService struct {
+	mock.Mock
 }
 
 func (c MockConverterService) GetRates(url string) (converter.Currencies, error) {
-	result := converter.Currencies{}
+	args := c.Called(url)
+	return args.Get(0).(converter.Currencies), args.Error(1)
 
-	return result, nil
 }
 
 func (c MockConverterService) Convert(currencies converter.Currencies, value float64) map[string]float64 {
-	result := map[string]float64{}
-	return result
+	args := c.Called(currencies, value)
+	return args.Get(0).(map[string]float64)
 }

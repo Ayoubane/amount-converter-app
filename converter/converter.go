@@ -3,7 +3,9 @@ package converter
 import (
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
+
+	"golang.org/x/net/context"
+	"google.golang.org/appengine/urlfetch"
 )
 
 type ConverterService struct {
@@ -13,9 +15,9 @@ type Currencies struct {
 	Rates map[string]float64 `json:"rates"`
 }
 
-func (c ConverterService) GetRates(url string) (Currencies, error) {
+func (c ConverterService) GetRates(ctx context.Context, url string) (Currencies, error) {
 	result := Currencies{}
-	resp, err := http.Get(url)
+	resp, err := urlfetch.Client(ctx).Get(url)
 	if err != nil {
 		return result, err
 	}

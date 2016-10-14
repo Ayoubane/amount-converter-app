@@ -6,7 +6,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"google.golang.org/appengine"
+
+	"log"
+
 	"github.com/ayoubane/amount-converter-app/converter"
+	"golang.org/x/net/context"
 )
 
 type ConverterHandler struct {
@@ -14,13 +19,15 @@ type ConverterHandler struct {
 }
 
 type ConverterServiceInterface interface {
-	GetRates(url string) (converter.Currencies, error)
+	GetRates(ctx context.Context, url string) (converter.Currencies, error)
 	Convert(currencies converter.Currencies, value float64) map[string]float64
 }
 
 func (h ConverterHandler) Convert(w http.ResponseWriter, r *http.Request) {
-	result, err := h.ConverterService.GetRates("https://api.fixer.io/latest")
+	ctx := appengine.NewContext(r)
+	result, err := h.ConverterService.GetRates(ctx, "https://api.fixer.io/latest")
 	if err != nil {
+		log.Printf("Error : %v", err)
 		http.Error(w, "Probleme sur la lecture du JSon rates", http.StatusInternalServerError)
 		return
 	}

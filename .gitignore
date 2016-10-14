@@ -1,3 +1,5 @@
 .idea
-test/testgetrates
-test/testresult
+converter/test/testgetrates
+converter/test/testresult
+api/test3
+api/testresultginkgo
